@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.simonskvara.skv_toolkit": {
+      "version": "https://ZephyrRanger@bitbucket.org/btkgamedesign/skv_tools_toolkit.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ad895994cfc822ac5204e5d0cee850ffa9ae8a52"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.4",
       "depth": 1,

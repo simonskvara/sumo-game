@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.simonskvara.skv_toolkit": "https://ZephyrRanger@bitbucket.org/btkgamedesign/skv_tools_toolkit.git",
     "com.unity.collab-proxy": "2.7.1",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.ide.rider": "3.0.31",
