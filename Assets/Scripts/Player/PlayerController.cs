@@ -39,7 +39,11 @@ public class PlayerController : MonoBehaviour
         if (player2)
         {
             _input.Player2.Enable();
-            
+            _input.Player2.Rotate.performed += ProcessInput;
+            _input.Player2.Rotate.canceled += ProcessInput;
+
+            _input.Player2.Charge.started += ChargeAttack;
+            _input.Player2.Charge.canceled += ChargeAttack;
         }
     }
 
@@ -57,7 +61,11 @@ public class PlayerController : MonoBehaviour
 
         if (player2)
         {
-            
+            _input.Player2.Rotate.performed -= ProcessInput;
+            _input.Player2.Rotate.canceled -= ProcessInput;
+
+            _input.Player2.Charge.started -= ChargeAttack;
+            _input.Player2.Charge.canceled -= ChargeAttack;
             _input.Player2.Disable();
         }
     }

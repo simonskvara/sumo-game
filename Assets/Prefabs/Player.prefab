@@ -76,7 +76,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1: 0
   player2: 0
-  rotationSpeed: 120
+  rotationSpeed: 140
   chargingSpeed: 1
 --- !u!114 &31078411902209120
 MonoBehaviour:
