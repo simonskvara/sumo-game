@@ -503,7 +503,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Title
+  m_text: Sumo Tide
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1bb7dc5e2dcb92348ad9020476fca697, type: 2}
   m_sharedMaterial: {fileID: -5151514398241614581, guid: 1bb7dc5e2dcb92348ad9020476fca697, type: 2}

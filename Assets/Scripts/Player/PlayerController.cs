@@ -10,11 +10,7 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed;
     public Vector2 RotationDirection { get; private set; }
 
-    private bool _canControl = true;
-
-    private bool _isCharging;
-    private float _chargeTime;
-    public float chargingSpeed;
+    public bool CanControl { get; private set; } = true;
     
     
     private InputSystem_Actions _input;
@@ -31,9 +27,6 @@ public class PlayerController : MonoBehaviour
             _input.Player1.Enable();
             _input.Player1.Rotate.performed += ProcessInput;
             _input.Player1.Rotate.canceled += ProcessInput;
-
-            _input.Player1.Charge.started += ChargeAttack;
-            _input.Player1.Charge.canceled += ChargeAttack;
         }
 
         if (player2)
@@ -41,9 +34,6 @@ public class PlayerController : MonoBehaviour
             _input.Player2.Enable();
             _input.Player2.Rotate.performed += ProcessInput;
             _input.Player2.Rotate.canceled += ProcessInput;
-
-            _input.Player2.Charge.started += ChargeAttack;
-            _input.Player2.Charge.canceled += ChargeAttack;
         }
     }
 
@@ -54,8 +44,6 @@ public class PlayerController : MonoBehaviour
             _input.Player1.Rotate.performed -= ProcessInput;
             _input.Player1.Rotate.canceled -= ProcessInput;
             
-            _input.Player1.Charge.started -= ChargeAttack;
-            _input.Player1.Charge.canceled -= ChargeAttack;
             _input.Player1.Disable();
         }
 
@@ -63,9 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             _input.Player2.Rotate.performed -= ProcessInput;
             _input.Player2.Rotate.canceled -= ProcessInput;
-
-            _input.Player2.Charge.started -= ChargeAttack;
-            _input.Player2.Charge.canceled -= ChargeAttack;
+            
             _input.Player2.Disable();
         }
     }
@@ -73,19 +59,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Rotate();
-
-        if (_isCharging)
-        {
-            _chargeTime += Time.deltaTime * chargingSpeed;
-            _chargeTime = Mathf.Clamp01(_chargeTime);
-        }
     }
     
     void ProcessInput(InputAction.CallbackContext context)
     {
-        if(!_canControl)
-            return;
-        
         if (player1)
             RotationDirection = _input.Player1.Rotate.ReadValue<Vector2>();
 
@@ -95,32 +72,21 @@ public class PlayerController : MonoBehaviour
 
     void Rotate()
     {
+        if(!CanControl)
+            return;
+        
         transform.Rotate(new Vector3(0,0,1), rotationSpeed * -RotationDirection.x * Time.deltaTime);
-    }
-
-    void ChargeAttack(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            _isCharging = true;
-        }
-
-        if (context.canceled)
-        {
-            _isCharging = false;
-            // start charge attack
-        }
     }
 
     public void DisableControls()
     {
-        _canControl = false;
+        CanControl = false;
         RotationDirection = Vector2.zero;
     }
 
     public void EnableControls()
     {
-        _canControl = true;
+        CanControl = true;
     }
     
     
