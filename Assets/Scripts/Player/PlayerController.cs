@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
     public void DisableControls()
     {
         CanControl = false;
-        RotationDirection = Vector2.zero;
     }
 
     public void EnableControls()

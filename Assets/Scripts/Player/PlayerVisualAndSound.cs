@@ -7,6 +7,20 @@ public class PlayerVisualAndSound : MonoBehaviour
 
     public Animator animator;
 
+    [Header("Sound Effect")]
+    public AudioSource audioSource;
+    public AudioClip dashSfx;
+
+    private void OnEnable()
+    {
+        chargeAttack.OnDashStart += DashSoundEffect;
+    }
+
+    private void OnDisable()
+    {
+        chargeAttack.OnDashStart -= DashSoundEffect;
+    }
+
     private void Update()
     {
         DashAnimation();
@@ -15,5 +29,11 @@ public class PlayerVisualAndSound : MonoBehaviour
     void DashAnimation()
     {
         animator.SetBool("IsDashing", chargeAttack.IsDashing());
+    }
+
+    void DashSoundEffect()
+    {
+        audioSource.clip = dashSfx;
+        audioSource.Play();
     }
 }

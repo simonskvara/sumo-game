@@ -13,15 +13,19 @@ public class PlayerChargeAttack : MonoBehaviour
     public float maxDashDistance;
     public float dashSpeed;
     public LineRenderer dashLine;
+
+    public float maxKnockbackForce;
     
     private bool _isCharging;
     private float _currentCharge;
     private bool _isDashing;
     private Vector2 _dashDirection;
-    
-    
+
+    public event Action OnDashStart;
     
     private InputSystem_Actions _input;
+    
+    public bool CanControl { get; private set; } = true;
 
     private void Awake()
     {
@@ -81,6 +85,9 @@ public class PlayerChargeAttack : MonoBehaviour
 
     void StartCharging(InputAction.CallbackContext context)
     {
+        if(!CanControl)
+            return;
+        
         if(_isDashing)
             return;
         
@@ -93,6 +100,8 @@ public class PlayerChargeAttack : MonoBehaviour
     {
         if (_isCharging)
         {
+            OnDashStart?.Invoke();
+            
             _isCharging = false;
             dashLine.enabled = false;
             StartCoroutine(Dashing());
@@ -100,7 +109,8 @@ public class PlayerChargeAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Get start and end position and lerp the position over time
+    /// Get start and end position and lerp the position based on the duration set by the speed
+    /// Makes the dashing speed consistent no matter the distance
     /// </summary>
     /// <returns></returns>
     IEnumerator Dashing()
@@ -142,11 +152,23 @@ public class PlayerChargeAttack : MonoBehaviour
         dashLine.SetPosition(1, (Vector2)position + _dashDirection * calculatedDistance);
     }
     
-    public void CancelCharge()
+    public void CancelChargingAndDashing()
     {
         _isCharging = false;
+        _isDashing = false;
+        StopAllCoroutines();
         dashLine.enabled = false;
         playerController.EnableControls();
+    }
+
+    public void ApplyKnockBack(Rigidbody2D targetRb)
+    {
+        float chargeRatio = _currentCharge / maxChargeTime;
+        float knockbackForce = Mathf.Lerp(0, maxKnockbackForce, chargeRatio);
+        
+        Vector2 forceDirection = (targetRb.transform.position - transform.position).normalized;
+        
+        targetRb.AddForce(forceDirection * knockbackForce, ForceMode2D.Impulse);
     }
 
     private void OnDrawGizmosSelected()
@@ -158,5 +180,26 @@ public class PlayerChargeAttack : MonoBehaviour
     public bool IsDashing()
     {
         return _isDashing;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player") && _isDashing)
+        {
+            Rigidbody2D targetRb = other.gameObject.GetComponent<Rigidbody2D>();
+            
+            ApplyKnockBack(targetRb);
+            CancelChargingAndDashing();
+        }
+    }
+
+    public void DisableControls()
+    {
+        CanControl = false;
+    }
+
+    public void EnableControls()
+    {
+        CanControl = true;
     }
 }
