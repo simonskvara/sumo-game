@@ -296,7 +296,7 @@ MonoBehaviour:
   maxDashDistance: 5
   dashSpeed: 10
   dashLine: {fileID: 9151318820130536714}
-  maxKnockbackForce: 5
+  maxKnockbackForce: 8
 --- !u!114 &8835907347353405541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,6 +312,7 @@ MonoBehaviour:
   chargeAttack: {fileID: 31078411902209120}
   animator: {fileID: 6679445785554847928}
   audioSource: {fileID: 5045604679254749942}
+  dashSfx: {fileID: 8300000, guid: 52da54084652e03449b46c628089dc11, type: 3}
 --- !u!1 &7363676666778539875
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,8 +500,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 0, b: 0, a: 1}
+      key0: {r: 1, g: 0, b: 0, a: 0.3137255}
+      key1: {r: 1, g: 0, b: 0, a: 0.3137255}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
