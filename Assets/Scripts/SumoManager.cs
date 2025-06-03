@@ -29,11 +29,14 @@ public class SumoManager : MonoBehaviour
     [Header("Texts")] 
     public TextMeshProUGUI player1RoundsWonText;
     public TextMeshProUGUI player2RoundsWonText;
-    public GameObject player1WonTheRound;
-    public GameObject player2WonTheRound;
-    public GameObject player1WonTheGame;
-    public GameObject player2WonTheGame;
-    public GameObject endGamePanel;
+    [SerializeField] private GameObject roundWonObject;
+    [SerializeField] private TextMeshProUGUI roundWonText;
+
+    [SerializeField] private string gameWonDescription;
+    [SerializeField] private GameObject gameWonObject;
+    [SerializeField] private TextMeshProUGUI gameWonText;
+
+    private PlayerController[] _controllers;
 
     private void Awake()
     {
@@ -51,6 +54,8 @@ public class SumoManager : MonoBehaviour
 
         _player1StartRotation = player1.transform.rotation;
         _player2StartRotation = player2.transform.rotation;
+
+        _controllers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
     }
 
     public void ResetPlayers()
@@ -77,7 +82,9 @@ public class SumoManager : MonoBehaviour
         }
         
         StartCoroutine(RoundWon());
-        player1WonTheRound.SetActive(true);
+        
+        roundWonObject.SetActive(true);
+        roundWonText.text = "Player 1 won the round";
         
         Debug.Log("Player 1 wins the round");
     }
@@ -94,19 +101,30 @@ public class SumoManager : MonoBehaviour
         }
 
         StartCoroutine(RoundWon());
-        player2WonTheRound.SetActive(true);
+        
+        roundWonObject.SetActive(true);
+        roundWonText.text = "Player 1 won the round";
         
         Debug.Log("Player 2 wins the round");
     }
 
     IEnumerator RoundWon()
     {
+        foreach (var controller in _controllers)
+        {
+            controller.DisableControls();
+        }
+        
         yield return new WaitForSeconds(2f);
         ArenaManager.Instance.ResetArena();
         ResetPlayers();
         
-        player1WonTheRound.SetActive(false);
-        player2WonTheRound.SetActive(false);
+        roundWonObject.SetActive(false);
+        
+        foreach (var controller in _controllers)
+        {
+            controller.EnableControls();
+        }
     }
 
     void UpdateText()
@@ -117,16 +135,25 @@ public class SumoManager : MonoBehaviour
 
     void GameWin(bool isPlayer1, bool isPlayer2)
     {
+        foreach (var controller in _controllers)
+        {
+            controller.DisableControls();
+        }
+        
         UpdateText();
 
+        gameWonObject.SetActive(true);
+        
         if (isPlayer1)
         {
-            player1WonTheGame.SetActive(true);
+            string tempString = gameWonDescription.Replace("<playerName>", "Player 1");
+            gameWonText.text = tempString;
         }
 
         if (isPlayer2)
         {
-            player2WonTheGame.SetActive(true);
+            string tempString = gameWonDescription.Replace("<playerName>", "Player 2");
+            gameWonText.text = tempString;
         }
         
         Cursor.lockState = CursorLockMode.None;

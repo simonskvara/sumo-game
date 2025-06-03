@@ -85,7 +85,7 @@ public class PlayerChargeAttack : MonoBehaviour
 
     void StartCharging(InputAction.CallbackContext context)
     {
-        if(!CanControl)
+        if(!playerController.CanControl)
             return;
         
         if(_isDashing)
@@ -98,6 +98,9 @@ public class PlayerChargeAttack : MonoBehaviour
 
     void ExecuteDash(InputAction.CallbackContext context)
     {
+        if(!playerController.CanControl)
+            return;
+        
         if (_isCharging)
         {
             OnDashStart?.Invoke();

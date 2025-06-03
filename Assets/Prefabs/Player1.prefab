@@ -76,6 +76,30 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: a4c77086b3f92c24d86af01a2c3ef5ca, type: 2}
+    - target: {fileID: 9151318820130536714, guid: 3b3f2a7b8c4a5974bbe33e7bf11eb009, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151318820130536714, guid: 3b3f2a7b8c4a5974bbe33e7bf11eb009, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151318820130536714, guid: 3b3f2a7b8c4a5974bbe33e7bf11eb009, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151318820130536714, guid: 3b3f2a7b8c4a5974bbe33e7bf11eb009, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151318820130536714, guid: 3b3f2a7b8c4a5974bbe33e7bf11eb009, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.05882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151318820130536714, guid: 3b3f2a7b8c4a5974bbe33e7bf11eb009, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
