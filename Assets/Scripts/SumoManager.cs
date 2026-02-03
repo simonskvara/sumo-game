@@ -37,6 +37,7 @@ public class SumoManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameWonText;
 
     private PlayerController[] _controllers;
+    private PlayerChargeAttack[] _chargeAttacks;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class SumoManager : MonoBehaviour
         _player2StartRotation = player2.transform.rotation;
 
         _controllers = FindObjectsByType<PlayerController>(FindObjectsSortMode.None);
+        _chargeAttacks = FindObjectsByType<PlayerChargeAttack>(FindObjectsSortMode.None);
     }
 
     public void ResetPlayers()
@@ -103,17 +105,14 @@ public class SumoManager : MonoBehaviour
         StartCoroutine(RoundWon());
         
         roundWonObject.SetActive(true);
-        roundWonText.text = "Player 1 won the round";
+        roundWonText.text = "Player 2 won the round";
         
         Debug.Log("Player 2 wins the round");
     }
 
     IEnumerator RoundWon()
     {
-        foreach (var controller in _controllers)
-        {
-            controller.DisableControls();
-        }
+        DisablePlayers();
         
         yield return new WaitForSeconds(2f);
         ArenaManager.Instance.ResetArena();
@@ -121,10 +120,7 @@ public class SumoManager : MonoBehaviour
         
         roundWonObject.SetActive(false);
         
-        foreach (var controller in _controllers)
-        {
-            controller.EnableControls();
-        }
+        EnablePlayers();
     }
 
     void UpdateText()
@@ -135,10 +131,7 @@ public class SumoManager : MonoBehaviour
 
     void GameWin(bool isPlayer1, bool isPlayer2)
     {
-        foreach (var controller in _controllers)
-        {
-            controller.DisableControls();
-        }
+        DisablePlayers();
         
         UpdateText();
 
@@ -159,5 +152,26 @@ public class SumoManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         
+    }
+
+    private void DisablePlayers()
+    {
+        foreach (var controller in _controllers)
+        {
+            controller.DisableControls();
+        }
+
+        foreach (var chargeAttack in _chargeAttacks)
+        {
+            chargeAttack.CancelChargingAndDashing();
+        }
+    }
+
+    private void EnablePlayers()
+    {
+        foreach (var controller in _controllers)
+        {
+            controller.EnableControls();
+        }
     }
 }
