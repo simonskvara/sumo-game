@@ -24,18 +24,13 @@ public class ArenaManager : MonoBehaviour
     {
         if (other.CompareTag("Player") && !_hasScored)
         {
-            PlayerController player = other.GetComponent<PlayerController>();
+            Player player = other.GetComponent<Player>();
+
+            if (SumoManager.Instance != null)
+            {
+                SumoManager.Instance.RoundEnd(player);
+            }
             
-            if (player.player1)
-            {
-                SumoManager.Instance.Player2WinsRound();
-            }
-
-            if (player.player2)
-            {
-                SumoManager.Instance.Player1WinsRound();
-            }
-
             _hasScored = true;
         }
     }

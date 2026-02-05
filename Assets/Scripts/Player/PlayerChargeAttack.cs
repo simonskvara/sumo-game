@@ -115,7 +115,6 @@ public class PlayerChargeAttack : MonoBehaviour
     /// Get start and end position and lerp the position based on the duration set by the speed
     /// Makes the dashing speed consistent no matter the distance
     /// </summary>
-    /// <returns></returns>
     IEnumerator Dashing()
     {
         _isDashing = true;
@@ -145,8 +144,6 @@ public class PlayerChargeAttack : MonoBehaviour
     {
         if (!dashLine)
             return;
-        
-        
 
         float calculatedDistance = Mathf.Lerp(0, maxDashDistance, _currentCharge / maxChargeTime);
 
@@ -155,13 +152,20 @@ public class PlayerChargeAttack : MonoBehaviour
         dashLine.SetPosition(1, (Vector2)position + _dashDirection * calculatedDistance);
     }
     
-    public void CancelChargingAndDashing()
+    private void CancelChargingAndDashing()
     {
         _isCharging = false;
         _isDashing = false;
         StopAllCoroutines();
         dashLine.enabled = false;
         playerController.EnableControls();
+    }
+
+    public void ResetChargingAndDashing()
+    {
+        _isCharging = false;
+        StopAllCoroutines();
+        dashLine.enabled = false;
     }
 
     public void ApplyKnockBack(Rigidbody2D targetRb)
@@ -185,7 +189,7 @@ public class PlayerChargeAttack : MonoBehaviour
         return _isDashing;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player") && _isDashing)
         {
