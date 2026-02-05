@@ -9,6 +9,7 @@ using UnityEngine;
 /// <summary>
 /// Sorry about all those texts, had only one day to do this
 /// </summary>
+/// TODO: Maybe make a UI manager to handle all the text objects
 public class SumoManager : MonoBehaviour
 {
     public static SumoManager Instance;
